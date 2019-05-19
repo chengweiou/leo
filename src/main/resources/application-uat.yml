@@ -1,0 +1,22 @@
+server:
+  port: 8906
+  servlet:
+    context-path: /leonids
+
+  ####Jetty specific properties########
+  jetty:
+    max-http-post-size: 0
+
+
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+  datasource:
+    url: jdbc:mysql://mysql:3306/leonids
+    username: root
+    password: 123456
+
+api:
+  fcm:
+    keyPath: /proj/config/leonids-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
+    dbUrl: https://leonids-bd12a.firebaseio.com

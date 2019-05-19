@@ -1,0 +1,8 @@
+spring:
+  h2:
+    console:
+      enabled: true
+api:
+  fcm:
+    keyPath: /Users/chengweiou/Desktop/project/leonids/src/main/resources/leonids-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
+    dbUrl: https://leonids-bd12a.firebaseio.com
