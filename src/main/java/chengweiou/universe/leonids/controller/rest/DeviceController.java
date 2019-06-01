@@ -5,7 +5,7 @@ import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.param.Valid;
 import chengweiou.universe.leonids.init.converter.Account;
 import chengweiou.universe.leonids.model.entity.Device;
-import chengweiou.universe.leonids.service.DeviceService;
+import chengweiou.universe.leonids.service.device.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

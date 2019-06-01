@@ -1,7 +1,7 @@
-package chengweiou.universe.leonids.service;
+package chengweiou.universe.leonids.service.device;
 
-import chengweiou.universe.blackhole.model.SearchCondition;
 import chengweiou.universe.leonids.model.Person;
+import chengweiou.universe.leonids.model.SearchCondition;
 import chengweiou.universe.leonids.model.entity.Device;
 
 import java.util.List;

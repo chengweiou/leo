@@ -2,9 +2,10 @@ package chengweiou.universe.leonids.service;
 
 
 import chengweiou.universe.blackhole.model.Builder;
-import chengweiou.universe.blackhole.model.SearchCondition;
 import chengweiou.universe.leonids.model.Person;
+import chengweiou.universe.leonids.model.SearchCondition;
 import chengweiou.universe.leonids.model.entity.Device;
+import chengweiou.universe.leonids.service.device.DeviceService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package chengweiou.universe.leonids.dao;
 
-import chengweiou.universe.blackhole.model.SearchCondition;
 import chengweiou.universe.leonids.model.Person;
+import chengweiou.universe.leonids.model.SearchCondition;
 import chengweiou.universe.leonids.model.entity.Device;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
@@ -20,11 +20,11 @@ public interface DeviceDao {
     int delete(Device e);
 
     @SelectProvider(type = Sql.class, method = "countByPerson")
-    int count(@Param("searchCondition") SearchCondition searchCondition, @Param("person") Person person);
+    int countByPerson(@Param("searchCondition") SearchCondition searchCondition, @Param("person") Person person);
 
     @SelectProvider(type = Sql.class, method = "findByPerson")
     @Results({@Result(property = "person.id", column = "personId")})
-    List<Device> find(@Param("searchCondition") SearchCondition searchCondition, @Param("person") Person person);
+    List<Device> findByPerson(@Param("searchCondition") SearchCondition searchCondition, @Param("person") Person person);
 
     class Sql {
         public String countByPerson(@Param("searchCondition")final SearchCondition searchCondition, @Param("person")final Person person) {
