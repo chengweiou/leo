@@ -15,9 +15,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addFormatter(new LocalDateTimeFormatter());
     }
 
-    //    todo tip if use wormhole, cors in this project must trun off
+//    todo tip if use wormhole, cors in this project must trun off
 //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+//        registry.addMapping("/**").allowedMethods("*");
 //    }
 }
