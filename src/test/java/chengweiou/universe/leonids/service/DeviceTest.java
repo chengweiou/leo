@@ -1,6 +1,7 @@
 package chengweiou.universe.leonids.service;
 
 
+import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.model.Builder;
 import chengweiou.universe.leonids.model.Person;
 import chengweiou.universe.leonids.model.SearchCondition;
@@ -21,7 +22,7 @@ public class DeviceTest {
     private DeviceService service;
 
     @Test
-    public void saveDelete() {
+    public void saveDelete() throws FailException {
         Device e = Builder.set("person", Builder.set("id", 10L).to(new Person()))
                 .set("token", "asdf")
                 .to(new Device());

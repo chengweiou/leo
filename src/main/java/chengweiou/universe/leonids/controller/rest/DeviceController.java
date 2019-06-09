@@ -1,5 +1,6 @@
 package chengweiou.universe.leonids.controller.rest;
 
+import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ParamException;
 import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.param.Valid;
@@ -16,11 +17,12 @@ public class DeviceController {
     @Autowired
     private DeviceService service;
     @PostMapping("/device")
-    public Rest<Long> save(Device e, @RequestHeader("loginAccount") Account loginAccount) throws ParamException {
+    public Rest<Long> save(Device e, @RequestHeader("loginAccount") Account loginAccount) throws ParamException, FailException {
         Valid.check("loginAccount.person", loginAccount.getPerson()).isNotNull();
         Valid.check("loginAccount.person.id", loginAccount.getPerson().getId()).is().positive();
         Valid.check("device.token", e.getToken()).is().lengthIn(500);
         e.setPerson(loginAccount.getPerson());
+//        todo save -> replace
         service.save(e);
         return Rest.ok(e.getId());
     }

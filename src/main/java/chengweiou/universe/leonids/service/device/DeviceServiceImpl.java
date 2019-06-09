@@ -1,5 +1,6 @@
 package chengweiou.universe.leonids.service.device;
 
+import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.leonids.model.Person;
 import chengweiou.universe.leonids.model.SearchCondition;
 import chengweiou.universe.leonids.model.entity.Device;
@@ -14,13 +15,15 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceDio dio;
 
     @Override
-    public void save(Device e) {
-        dio.save(e);
+    public void save(Device e) throws FailException {
+        int count = dio.save(e);
+        if (count != 1) throw new FailException();
     }
 
     @Override
-    public void delete(Device e) {
-        dio.delete(e);
+    public void delete(Device e) throws FailException {
+        int count = dio.delete(e);
+        if (count != 1) throw new FailException();
     }
 
     @Override

@@ -44,6 +44,8 @@ public class PushController {
         Valid.check("push.topic", e.getTopic()).is().lengthIn(500);
         Valid.check("push.name", e.getName()).is().lengthIn(500);
         Valid.check("push.content", e.getContent()).is().lengthIn(500);
+//        todo setcondition 多个同时订阅才有效（交钱+指定主题）
+//        todo 多个同样topic 不收到相同推送
         fcmManager.send(Message.builder().setTopic(e.getTopic()).setNotification(new Notification(e.getName(), e.getContent())).build());
         return Rest.ok(true);
     }

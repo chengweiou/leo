@@ -15,14 +15,14 @@ public class DeviceDio {
     @Autowired
     private DeviceDao dao;
 
-    public void save(Device e) {
+    public int save(Device e) {
         e.fillNotRequire();
         e.updateAt();
-        dao.save(e);
+        return dao.save(e);
     }
 
-    public void delete(Device e) {
-        dao.delete(e);
+    public int delete(Device e) {
+        return dao.delete(e);
     }
 
     public int count(SearchCondition searchCondition, Person person) {
