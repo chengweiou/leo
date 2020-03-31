@@ -3,17 +3,12 @@ server:
   servlet:
     context-path: /leonids
 
-  ####Jetty specific properties########
-  jetty:
-    max-http-post-size: 0
-
-
 spring:
   jackson:
     default-property-inclusion: NON_NULL
   datasource:
-    url: jdbc:mysql://mysql:3306/leonids
-    username: root
+    url: jdbc:postgresql://pgsql/universe?currentSchema=leonids
+    username: postgres
     password: 123456
 
 api:

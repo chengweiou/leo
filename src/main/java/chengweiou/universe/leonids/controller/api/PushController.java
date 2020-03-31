@@ -1,7 +1,8 @@
-package chengweiou.universe.leonids.controller.rest.api;
+package chengweiou.universe.leonids.controller.api;
 
 import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ParamException;
+import chengweiou.universe.blackhole.model.Builder;
 import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.param.Valid;
 import chengweiou.universe.leonids.manager.FcmManager;
@@ -33,7 +34,7 @@ public class PushController {
         Valid.check("push.person.id", e.getPerson().getId()).is().positive();
         Valid.check("push.name", e.getName()).is().lengthIn(500);
         Valid.check("push.content", e.getContent()).is().lengthIn(500);
-        List<Device> deviceList = deviceService.find(new SearchCondition(), e.getPerson());
+        List<Device> deviceList = deviceService.find(new SearchCondition(), Builder.set("person", e.getPerson()).to(new Device()));
         List<String> tokenList = deviceList.stream().map(Device::getToken).collect(Collectors.toList());
         fcmManager.send(MulticastMessage.builder().addAllTokens(tokenList).setNotification(new Notification(e.getName(), e.getContent())).build());
         return Rest.ok(true);

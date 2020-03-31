@@ -1,7 +1,8 @@
 package chengweiou.universe.leonids.service.device;
 
 import chengweiou.universe.blackhole.exception.FailException;
-import chengweiou.universe.leonids.model.Person;
+import chengweiou.universe.blackhole.exception.ProjException;
+import chengweiou.universe.blackhole.model.Builder;
 import chengweiou.universe.leonids.model.SearchCondition;
 import chengweiou.universe.leonids.model.entity.Device;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +16,42 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceDio dio;
 
     @Override
-    public void save(Device e) throws FailException {
-        int count = dio.save(e);
-        if (count != 1) throw new FailException();
+    public void save(Device e) throws FailException, ProjException {
+        dio.save(e);
     }
 
     @Override
     public void delete(Device e) throws FailException {
-        int count = dio.delete(e);
-        if (count != 1) throw new FailException();
+        dio.delete(e);
     }
 
     @Override
-    public int count(SearchCondition searchCondition, Person person) {
-        return dio.count(searchCondition, person);
+    public long update(Device e) throws ProjException {
+        return dio.update(e);
     }
 
     @Override
-    public List<Device> find(SearchCondition searchCondition, Person person) {
-        return dio.find(searchCondition, person);
+    public void saveOrUpdate(Device e) throws FailException, ProjException {
+        Device indb = dio.findByKey(e);
+        if ( ! indb.notNull()) {
+            dio.save(e);
+        } else {
+            dio.update(Builder.set("id", indb.getId()).to(e));
+        }
+    }
+
+    @Override
+    public Device findById(Device e) {
+        return dio.findById(e);
+    }
+
+    @Override
+    public long count(SearchCondition searchCondition, Device sample) {
+        return dio.count(searchCondition, sample);
+    }
+
+    @Override
+    public List<Device> find(SearchCondition searchCondition, Device sample) {
+        return dio.find(searchCondition, sample);
     }
 }

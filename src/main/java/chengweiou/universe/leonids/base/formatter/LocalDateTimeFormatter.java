@@ -1,4 +1,4 @@
-package chengweiou.universe.leonids.init.formatter;
+package chengweiou.universe.leonids.base.formatter;
 
 import org.springframework.format.Formatter;
 

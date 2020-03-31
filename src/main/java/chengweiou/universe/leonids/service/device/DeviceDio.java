@@ -1,8 +1,10 @@
 package chengweiou.universe.leonids.service.device;
 
 
+import chengweiou.universe.blackhole.exception.FailException;
+import chengweiou.universe.blackhole.exception.ProjException;
 import chengweiou.universe.leonids.dao.DeviceDao;
-import chengweiou.universe.leonids.model.Person;
+import chengweiou.universe.leonids.model.ProjectRestCode;
 import chengweiou.universe.leonids.model.SearchCondition;
 import chengweiou.universe.leonids.model.entity.Device;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +17,42 @@ public class DeviceDio {
     @Autowired
     private DeviceDao dao;
 
-    public int save(Device e) {
+    public void save(Device e) throws FailException, ProjException {
+        long count = dao.countByKey(e);
+        if (count != 0) throw new ProjException("dup key: person:" + e.getPerson().getId() + " exists", ProjectRestCode.EXISTS);
         e.fillNotRequire();
+        e.createAt();
         e.updateAt();
-        return dao.save(e);
+        count = dao.save(e);
+        if (count != 1) throw new FailException();
     }
 
-    public int delete(Device e) {
-        return dao.delete(e);
+    public void delete(Device e) throws FailException {
+        long count = dao.delete(e);
+        if (count != 1) throw new FailException();
     }
 
-    public int count(SearchCondition searchCondition, Person person) {
-        return dao.countByPerson(searchCondition, person);
+    public long update(Device e) throws ProjException {
+        e.updateAt();
+        return dao.update(e);
     }
 
-    public List<Device> find(SearchCondition searchCondition, Person person) {
+    public Device findById(Device e) {
+        Device result = dao.findById(e);
+        return result != null ? result : Device.NULL;
+    }
+
+    public Device findByKey(Device e) {
+        Device result = dao.findByKey(e);
+        return result != null ? result : Device.NULL;
+    }
+
+    public long count(SearchCondition searchCondition, Device sample) {
+        return dao.count(searchCondition, sample);
+    }
+
+    public List<Device> find(SearchCondition searchCondition, Device sample) {
         searchCondition.setDefaultSort("updateAt");
-        return dao.findByPerson(searchCondition, person);
+        return dao.find(searchCondition, sample);
     }
 }

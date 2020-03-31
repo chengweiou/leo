@@ -1,4 +1,4 @@
-package chengweiou.universe.leonids.init.fcm;
+package chengweiou.universe.leonids.base.fcm;
 
 
 import com.google.auth.oauth2.GoogleCredentials;

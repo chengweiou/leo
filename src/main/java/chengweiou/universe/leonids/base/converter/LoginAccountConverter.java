@@ -1,4 +1,5 @@
-package chengweiou.universe.leonids.init.converter;
+package chengweiou.universe.leonids.base.converter;
+
 
 import com.google.gson.Gson;
 import org.springframework.core.convert.converter.Converter;

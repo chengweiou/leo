@@ -1,13 +1,22 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.0.M1'
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 }
-
-apply plugin: 'io.spring.dependency-management'
 
 group = 'chengweiou.universe'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
 	maven {
@@ -18,28 +27,28 @@ repositories {
 		}
 	}
 	mavenCentral()
-	maven { url 'https://repo.spring.io/snapshot' }
-	maven { url 'https://repo.spring.io/milestone' }
-
 }
 
 dependencies {
 	implementation 'com.google.firebase:firebase-admin:6.8.1'
-	implementation 'chengweiou.universe:blackhole:0.0.11@jar'
-	implementation 'com.google.code.gson:gson:2.8.5'
 
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'chengweiou.universe:blackhole:0.0.25@jar'
+	implementation 'com.google.code.gson:gson:2.8.5'
+	implementation 'org.apache.commons:commons-lang3:3.10'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+	implementation 'org.springframework.boot:spring-boot-starter-undertow'
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
-	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-	testImplementation ('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'junit', module: 'junit'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
 
@@ -48,4 +57,8 @@ configurations {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 	}
 	implementation.exclude module: 'spring-boot-starter-tomcat'
+}
+
+test {
+	useJUnitPlatform()
 }

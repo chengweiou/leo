@@ -3,19 +3,14 @@ server:
   servlet:
     context-path: /leonids
 
-  ####Jetty specific properties########
-  jetty:
-    max-http-post-size: 0
-
-
 spring:
   jackson:
     default-property-inclusion: NON_NULL
   datasource:
-    url: jdbc:mysql://localhost:3306/leonids
-    username: root
+    url: jdbc:postgresql://127.0.0.1/universe?currentSchema=leonids
+    username: postgres
     password: 123456
 api:
   fcm:
-    keyPath: /Users/chengweiou/Desktop/project/leonids/src/main/resources/leonids-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
+    keyPath: /Users/chengweiou/Desktop/project/universe/leonids/src/main/resources/leonids-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
     dbUrl: https://leonids-bd12a.firebaseio.com
