@@ -1,4 +1,4 @@
-set search_path = leonids;
+set search_path = leo;
 
 DROP TABLE IF EXISTS device;
 CREATE TABLE device (

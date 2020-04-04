@@ -8,5 +8,5 @@ spring:
     url: jdbc:h2:mem:test;MODE=PostgreSQL
 api:
   fcm:
-    keyPath: /Users/chengweiou/Desktop/project/universe/leonids/src/main/resources/leonids-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
-    dbUrl: https://leonids-bd12a.firebaseio.com
+    keyPath: /Users/chengweiou/Desktop/project/universe/leo/src/main/resources/leo-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
+    dbUrl: https://leo-bd12a.firebaseio.com

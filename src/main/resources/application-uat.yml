@@ -1,17 +1,17 @@
 server:
   port: 8906
   servlet:
-    context-path: /leonids
+    context-path: /leo
 
 spring:
   jackson:
     default-property-inclusion: NON_NULL
   datasource:
-    url: jdbc:postgresql://pgsql/universe?currentSchema=leonids
+    url: jdbc:postgresql://pgsql/universe?currentSchema=leo
     username: postgres
     password: 123456
 
 api:
   fcm:
-    keyPath: /proj/config/leonids-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
-    dbUrl: https://leonids-bd12a.firebaseio.com
+    keyPath: /proj/config/leo-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
+    dbUrl: https://leo-bd12a.firebaseio.com
