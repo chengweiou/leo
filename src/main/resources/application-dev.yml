@@ -1,16 +1,16 @@
 server:
   port: 0
   servlet:
-    context-path: /leo
+    context-path: /leob
 
 spring:
   jackson:
     default-property-inclusion: NON_NULL
   datasource:
-    url: jdbc:postgresql://127.0.0.1/universe?currentSchema=leo
+    url: jdbc:postgresql://127.0.0.1/universe?currentSchema=leob
     username: postgres
     password: 123456
 api:
   fcm:
-    keyPath: /Users/chengweiou/Desktop/project/universe/leo/src/main/resources/leo-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
-    dbUrl: https://leo-bd12a.firebaseio.com
+    keyPath: /Users/chengweiou/Desktop/project/universe/leob/src/main/resources/leob-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
+    dbUrl: https://leob-bd12a.firebaseio.com

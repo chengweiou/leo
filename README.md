@@ -19,8 +19,8 @@ docker run --rm --name redis -p 6379:6379 --network net -d redis
 first time:
 ```
 change active profile to uat
-mkdir -pv ~/Desktop/docker/leo/config
-cp src/main/resources/application.yml ~/Desktop/docker/leo/config/
+mkdir -pv ~/Desktop/docker/leob/config
+cp src/main/resources/application.yml ~/Desktop/docker/leob/config/
 chmod +x uat.sh
 ./uat.sh
 ```

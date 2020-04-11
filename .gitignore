@@ -1,4 +1,4 @@
-/src/main/resources/leo-*.json
+/src/main/resources/leob-*.json
 
 HELP.md
 .gradle
@@ -33,6 +33,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### System ###
-.DS_Store

@@ -1,4 +1,4 @@
-set search_path = leo;
+set search_path = leob;
 
 DROP TABLE IF EXISTS device;
 CREATE TABLE device (
