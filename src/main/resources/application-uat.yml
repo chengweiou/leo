@@ -1,11 +1,7 @@
 server:
   port: 8906
-  servlet:
-    context-path: /leob
 
 spring:
-  jackson:
-    default-property-inclusion: NON_NULL
   datasource:
     url: jdbc:postgresql://pgsql/universe?currentSchema=leob
     username: postgres

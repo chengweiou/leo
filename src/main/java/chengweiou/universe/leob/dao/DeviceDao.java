@@ -51,22 +51,22 @@ public interface DeviceDao {
                 WHERE("id=#{id}");
             }}.toString();
         }
+        
         public String count(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final Device sample) {
-            return new SQL() {{
-                SELECT("count(*)"); FROM("device");
-                if (sample != null) {
-                    if (sample.getPerson() != null) WHERE("personId = #{sample.person.id}");
-                }
-            }}.toString();
+            return baseFind(searchCondition, sample).SELECT("count(*)").toString();
         }
 
         public String find(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final Device sample) {
+            return baseFind(searchCondition, sample).SELECT("*").toString().concat(searchCondition.getOrderBy()).concat(searchCondition.getSqlLimit());
+        }
+
+        private SQL baseFind(SearchCondition searchCondition, Device sample) {
             return new SQL() {{
-                SELECT("*"); FROM("device");
+                FROM("device");
                 if (sample != null) {
                     if (sample.getPerson() != null) WHERE("personId = #{sample.person.id}");
                 }
-            }}.toString().concat(searchCondition.getOrderBy()).concat(searchCondition.getSqlLimit());
+            }};
         }
     }
 }

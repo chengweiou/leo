@@ -24,3 +24,12 @@ cp src/main/resources/application.yml ~/Desktop/docker/leob/config/
 chmod +x uat.sh
 ./uat.sh
 ```
+
+
+##### 单独启动容器
+```
+docker network net
+docker run --rm -it --name pgsql -p 5432:5432 --network net -v ~/Desktop/docker/pgsql/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres
+docker run --rm -it -d --name redis -p 6379:6379 --network net -d redis
+docker run --rm -it -d --name leob -p 60005:8906 --network net -v /Users/chengweiou/Desktop/docker/universe/leob:/proj/ -w /proj/ openjdk java -jar ser.jar
+```

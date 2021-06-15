@@ -1,18 +1,14 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.6.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.springframework.boot' version '2.5.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
 
-group = 'com.chengweiou.universe'
+group = 'chengweiou.universe'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-	developmentOnly
-	runtimeClasspath {
-		extendsFrom developmentOnly
-	}
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -30,26 +26,30 @@ repositories {
 }
 
 dependencies {
-	implementation 'com.google.firebase:firebase-admin:6.12.2'
 
-	implementation 'chengweiou.universe:blackhole:0.0.29@jar'
-	implementation 'com.google.code.gson:gson:2.8.5'
-	implementation 'org.apache.commons:commons-lang3:3.10'
+	implementation 'com.google.firebase:firebase-admin:7.3.0'
+    
+	implementation 'chengweiou.universe:blackhole:0.0.31@jar'
+	implementation 'com.google.code.gson:gson:2.8.7'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+		// for log4j2 yml
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.3'
 	
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-undertow'
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 configurations {
