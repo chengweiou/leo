@@ -1,9 +1,9 @@
 package chengweiou.universe.leob.data;
 
 
+import chengweiou.universe.leob.device.DeviceDio;
 import chengweiou.universe.leob.model.SearchCondition;
 import chengweiou.universe.leob.model.entity.Device;
-import chengweiou.universe.leob.service.device.DeviceDio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
