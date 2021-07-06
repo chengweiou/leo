@@ -1,4 +1,4 @@
-package chengweiou.universe.leob.device;
+package chengweiou.universe.leob.service.device;
 
 import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ProjException;

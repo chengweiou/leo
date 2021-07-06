@@ -7,8 +7,9 @@ import chengweiou.universe.blackhole.exception.ProjException;
 import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.param.Valid;
 import chengweiou.universe.leob.base.converter.Account;
-import chengweiou.universe.leob.device.DeviceService;
 import chengweiou.universe.leob.model.entity.Device;
+import chengweiou.universe.leob.service.device.DeviceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
