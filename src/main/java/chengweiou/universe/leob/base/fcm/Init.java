@@ -18,10 +18,10 @@ public class Init implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         FileInputStream serviceAccount = new FileInputStream(config.getKeyPath());
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setDatabaseUrl(config.getDbUrl())
-                .build();
+            .build();
 
         FirebaseApp.initializeApp(options);
     }

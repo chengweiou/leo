@@ -1,7 +1,10 @@
 package chengweiou.universe.leob.dao;
 
+import chengweiou.universe.leob.base.dao.BaseDao;
 import chengweiou.universe.leob.model.SearchCondition;
 import chengweiou.universe.leob.model.entity.Device;
+import chengweiou.universe.leob.model.entity.Device.Dto;
+
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
@@ -10,63 +13,33 @@ import java.util.List;
 
 @Repository
 @Mapper
-public interface DeviceDao {
-    @Insert("insert into device(personId, token, createAt, updateAt) values(#{person.id}, #{token}, #{createAt}, #{updateAt})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    int save(Device e);
-
-    @Delete("delete from device where id=#{id}")
-    int delete(Device e);
-
-    @UpdateProvider(type = Sql.class, method = "update")
-    long update(Device e);
-
-    @Select("select * from device where id=#{id}")
-    @Results({
-            @Result(property = "person.id", column = "personId"),
-    })
-    Device findById(Device e);
-    @Select("select count(*) from device where personId=#{person.id}")
-    long countByKey(Device e);
-    @Select("select * from device where personId=#{person.id}")
-    @Results({
-            @Result(property = "person.id", column = "personId"),
-    })
-    Device findByKey(Device e);
+public interface DeviceDao extends BaseDao<Dto> {
 
     @SelectProvider(type = Sql.class, method = "count")
-    long count(@Param("searchCondition") SearchCondition searchCondition, @Param("sample") Device sample);
+    long count(@Param("searchCondition") SearchCondition searchCondition, @Param("sample") Dto sample);
 
     @SelectProvider(type = Sql.class, method = "find")
-    @Results({@Result(property = "person.id", column = "personId")})
-    List<Device> find(@Param("searchCondition") SearchCondition searchCondition, @Param("sample") Device sample);
+    List<Dto> find(@Param("searchCondition") SearchCondition searchCondition, @Param("sample") Dto sample);
 
     class Sql {
-        public String update(final Device e) {
-            return new SQL() {{
-                UPDATE("device");
-                if (e.getPerson() != null) SET("personId = #{person.id}");
-                if (e.getToken() != null) SET("token = #{token}");
-                SET("updateAt = #{updateAt}");
-                WHERE("id=#{id}");
-            }}.toString();
-        }
-        
-        public String count(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final Device sample) {
+
+        public String count(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final Dto sample) {
             return baseFind(searchCondition, sample).SELECT("count(*)").toString();
         }
 
-        public String find(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final Device sample) {
+        public String find(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final Dto sample) {
             return baseFind(searchCondition, sample).SELECT("*").toString().concat(searchCondition.getOrderBy()).concat(searchCondition.getSqlLimit());
         }
 
-        private SQL baseFind(SearchCondition searchCondition, Device sample) {
+        private SQL baseFind(SearchCondition searchCondition, Dto sample) {
             return new SQL() {{
                 FROM("device");
+                if (searchCondition.getIdList() != null) WHERE("id in ${searchCondition.foreachIdList}");
                 if (sample != null) {
-                    if (sample.getPerson() != null) WHERE("personId = #{sample.person.id}");
+                    if (sample.getPersonId() != null) WHERE("personId = #{sample.personId}");
                 }
             }};
         }
     }
+
 }

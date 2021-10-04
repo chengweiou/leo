@@ -24,7 +24,8 @@ public class PushTest {
     public void sendNotiByToken() throws FailException {
         MulticastMessage message = MulticastMessage.builder()
                 .addAllTokens(Arrays.asList("euBVH4S0AJU:APA91bE-NC4QZXlAEJIFDCoVcI02cbnoI4AiylWuPLAIUPATjIZyQc_e0zVZItrhm_-J-jolJkLm0WDsEouasrXkqpGO_SlWKOJNfRagIu3MWRVm1VGXEnlBvqD324YnDjtUrkBRyoQo"))
-                .setNotification(new Notification("title-test", "body-test")).build();
+                .setNotification(Notification.builder().setTitle("title-test").setBody("body-test").build()
+            ).build();
         Integer failCount = manager.send(message);
         System.out.println(failCount);
         Assertions.assertEquals(0, failCount);
@@ -41,7 +42,10 @@ public class PushTest {
 
     @Test
     public void sendNotiByTopic() throws FailException {
-        Message message = Message.builder().setTopic("weather").setNotification(new Notification("title-test-topic", "body-test-topic")).build();
+        Message message = Message.builder()
+                .setTopic("weather")
+                .setNotification(Notification.builder().setTitle("title-test-topic").setBody("body-test-topic").build()
+            ).build();
         String response = manager.send(message);
         System.out.println(response);
     }

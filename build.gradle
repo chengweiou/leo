@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 
-	implementation 'com.google.firebase:firebase-admin:7.3.0'
+	implementation 'com.google.firebase:firebase-admin:8.1.0'
 
 	implementation 'chengweiou.universe:blackhole:0.0.34'
 	implementation 'com.google.code.gson:gson:2.8.7'

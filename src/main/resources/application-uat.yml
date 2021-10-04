@@ -9,5 +9,5 @@ spring:
 
 api:
   fcm:
-    keyPath: /proj/config/leob-bd12a-firebase-adminsdk-nna1r-246e2e1f84.json
+    keyPath: /proj/config/leonids-bd12a-ec209e023048.json
     dbUrl: https://leob-bd12a.firebaseio.com
