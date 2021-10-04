@@ -1,4 +1,4 @@
-resources/fcm/
+/src/main/resources/fcm/
 
 HELP.md
 .gradle
