@@ -8,5 +8,5 @@ spring:
     password: 123456
 api:
   fcm:
-    keyPath: /Users/chengweiou/Documents/project/universe/leob/src/main/resources/fcm/leonids-bd12a-ec209e023048.json
+    keyPath: /Users/chengweiou/Documents/project/universe/leob/src/main/resources/fcm/leob-key.json
     dbUrl: https://leob-bd12a.firebaseio.com
