@@ -4,7 +4,7 @@ mkdir ~/Desktop/docker/universe/leob/config/
 cp -r src/main/resources/fcm/leob-key.json ~/Desktop/docker/universe/leob/config/
 #cp src/main/resources/application.yml ~/Desktop/docker/universe/leob/config/
 cp src/main/resources/application-uat.yml ~/Desktop/docker/universe/leob/config/
-cp src/main/resources/log4j2.xml ~/Desktop/docker/universe/leob/config/
+cp src/main/resources/log4j2.yml ~/Desktop/docker/universe/leob/config/
 cp docker-compose.yml ~/Desktop/docker/universe/leob/docker-compose.yml
 cd ~/Desktop/docker/universe/leob
 
