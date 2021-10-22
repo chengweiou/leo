@@ -67,7 +67,6 @@ public class DeviceTest {
 
     @Test
     public void find() {
-        SearchCondition searchCondition = Builder.set("k", "1").to(new SearchCondition());
         List<Device> list = service.find(new SearchCondition(), Builder.set("person", Builder.set("id", 1L).to(new Person())).to(new Device()));
         Assertions.assertEquals(1, list.size());
         Assertions.assertEquals(1L, list.get(0).getPerson().getId());

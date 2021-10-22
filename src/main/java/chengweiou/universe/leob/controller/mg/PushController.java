@@ -37,10 +37,10 @@ public class PushController {
         Valid.check("push.content", e.getContent()).is().lengthIn(500);
         List<Device> deviceList = deviceService.find(new SearchCondition(), Builder.set("person", e.getPerson()).to(new Device()));
         List<String> tokenList = deviceList.stream().map(Device::getToken).collect(Collectors.toList());
-        fcmManager.send(MulticastMessage.builder().addAllTokens(tokenList)
+        long failCount = fcmManager.send(MulticastMessage.builder().addAllTokens(tokenList)
                 .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build()
             ).build());
-        return Rest.ok(true);
+        return Rest.ok(failCount);
     }
 
     @PostMapping("/push/topic")
