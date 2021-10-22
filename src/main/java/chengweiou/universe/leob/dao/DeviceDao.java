@@ -2,7 +2,6 @@ package chengweiou.universe.leob.dao;
 
 import chengweiou.universe.leob.base.dao.BaseDao;
 import chengweiou.universe.leob.model.SearchCondition;
-import chengweiou.universe.leob.model.entity.Device;
 import chengweiou.universe.leob.model.entity.Device.Dto;
 
 import org.apache.ibatis.annotations.*;

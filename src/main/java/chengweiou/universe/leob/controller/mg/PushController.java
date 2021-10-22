@@ -1,4 +1,4 @@
-package chengweiou.universe.leob.controller.api;
+package chengweiou.universe.leob.controller.mg;
 
 import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ParamException;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("mg")
 public class PushController {
     @Autowired
     private FcmManager fcmManager;
@@ -38,7 +38,8 @@ public class PushController {
         List<Device> deviceList = deviceService.find(new SearchCondition(), Builder.set("person", e.getPerson()).to(new Device()));
         List<String> tokenList = deviceList.stream().map(Device::getToken).collect(Collectors.toList());
         fcmManager.send(MulticastMessage.builder().addAllTokens(tokenList)
-        .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build()).build());
+                .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build()
+            ).build());
         return Rest.ok(true);
     }
 
@@ -50,7 +51,8 @@ public class PushController {
 //        todo setcondition 多个同时订阅才有效（交钱+指定主题）
 //        todo 多个同样topic 不收到相同推送
         fcmManager.send(Message.builder().setTopic(e.getTopic())
-        .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build()).build());
+                .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build()
+            ).build());
         return Rest.ok(true);
     }
 }

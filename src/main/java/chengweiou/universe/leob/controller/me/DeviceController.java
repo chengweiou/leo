@@ -1,4 +1,4 @@
-package chengweiou.universe.leob.controller.all;
+package chengweiou.universe.leob.controller.me;
 
 
 import chengweiou.universe.blackhole.exception.FailException;
@@ -13,9 +13,11 @@ import chengweiou.universe.leob.service.device.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("me")
 public class DeviceController {
     @Autowired
     private DeviceService service;

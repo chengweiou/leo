@@ -1,14 +1,6 @@
 package chengweiou.universe.leob.controller;
 
 
-import chengweiou.universe.blackhole.model.BasicRestCode;
-import chengweiou.universe.blackhole.model.Builder;
-import chengweiou.universe.blackhole.model.Rest;
-import chengweiou.universe.blackhole.util.GsonUtil;
-import chengweiou.universe.leob.base.converter.Account;
-import chengweiou.universe.leob.model.Person;
-import chengweiou.universe.leob.model.entity.Device;
-import com.google.gson.Gson;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +12,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import chengweiou.universe.blackhole.model.BasicRestCode;
+import chengweiou.universe.blackhole.model.Builder;
+import chengweiou.universe.blackhole.model.Rest;
+import chengweiou.universe.blackhole.util.GsonUtil;
+import chengweiou.universe.leob.base.converter.Account;
+import chengweiou.universe.leob.model.Person;
+
 @SpringBootTest
 @ActiveProfiles("test")
 public class DeviceTest {
@@ -30,7 +29,7 @@ public class DeviceTest {
 
 	@Test
 	public void saveDelete() throws Exception {
-		String result = mvc.perform(MockMvcRequestBuilders.post("/device")
+		String result = mvc.perform(MockMvcRequestBuilders.post("/me/device")
 				.header("loginAccount", GsonUtil.create().toJson(loginAccount))
 				.param("token", "asdfghjk")
 			).andReturn().getResponse().getContentAsString();
@@ -41,31 +40,24 @@ public class DeviceTest {
 	@Test
 	public void saveDeleteParamFail() throws Exception {
 		// token
-		String result = mvc.perform(MockMvcRequestBuilders.post("/device")
+		String result = mvc.perform(MockMvcRequestBuilders.post("/me/device")
 				.header("loginAccount", GsonUtil.create().toJson(loginAccount))
 		).andReturn().getResponse().getContentAsString();
 		Rest<Long> saveRest = Rest.from(result);
 		Assertions.assertEquals(BasicRestCode.PARAM, saveRest.getCode());
 		// account
-		result = mvc.perform(MockMvcRequestBuilders.post("/device")
+		result = mvc.perform(MockMvcRequestBuilders.post("/me/device")
 				.param("token", "asdfghjk")
 		).andReturn().getResponse().getContentAsString();
 		saveRest = Rest.from(result);
-		Assertions.assertEquals(BasicRestCode.PARAM, saveRest.getCode());
-		// account type mismatch
-		result = mvc.perform(MockMvcRequestBuilders.post("/device")
-				.header("loginAccount", GsonUtil.create().toJson(new Device()))
-				.param("token", "asdfghjk")
-		).andReturn().getResponse().getContentAsString();
-		saveRest = Rest.from(result);
-		Assertions.assertEquals(BasicRestCode.PARAM, saveRest.getCode());
+		Assertions.assertEquals(BasicRestCode.UNAUTH, saveRest.getCode());
 	}
 
 	@BeforeEach
 	public void before() {
 		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		loginAccount = Builder.set("person", Builder.set("id", 10L).to(new Person()))
-				.set("extra", "aaa")
+				.set("extra", "SUPER")
 				.to(new Account());
 	}
 }
