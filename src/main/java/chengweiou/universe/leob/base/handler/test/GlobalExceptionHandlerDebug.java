@@ -1,9 +1,12 @@
 package chengweiou.universe.leob.base.handler.test;
 
 
+import chengweiou.universe.blackhole.exception.BaseExceptionHandler;
+import chengweiou.universe.blackhole.exception.BaseExceptionHandlerDebug;
 import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ParamException;
 import chengweiou.universe.blackhole.exception.ProjException;
+import chengweiou.universe.blackhole.exception.UnauthException;
 import chengweiou.universe.blackhole.model.BasicRestCode;
 import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.util.LogUtil;
@@ -16,17 +19,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Profile("!prod")
 @RestControllerAdvice
-public class GlobalExceptionHandlerDebug {
+public class GlobalExceptionHandlerDebug extends BaseExceptionHandlerDebug {
+
     @ExceptionHandler(ProjException.class)
     public Rest handleProjException(ProjException ex) {
-        Rest rest = Rest.fail(ex.getCode());
-        rest.setMessage(ex.getMessage());
-        return rest;
+        return super.handleProjException(ex);
     }
     @ExceptionHandler(ParamException.class)
     public Rest handleParamException(ParamException ex) {
-        Rest rest = Rest.fail(BasicRestCode.PARAM);
+        return super.handleParamException(ex);
+    }
+    @ExceptionHandler(UnauthException.class)
+    public Rest handleUnauthException(UnauthException ex) {
+        Rest rest = Rest.fail(BasicRestCode.UNAUTH);
         rest.setMessage(ex.getMessage());
+        LogUtil.e(rest.toString(), ex);
         return rest;
     }
     @ExceptionHandler(BindException.class)
@@ -50,16 +57,10 @@ public class GlobalExceptionHandlerDebug {
     }
     @ExceptionHandler(FailException.class)
     public Rest handleFailException(FailException ex) {
-        Rest rest = Rest.fail(BasicRestCode.FAIL);
-        rest.setMessage(ex.getMessage());
-        LogUtil.i(rest.toString(), ex);
-        return rest;
+        return super.handleFailException(ex);
     }
     @ExceptionHandler(Exception.class)
     public Rest handleException(Exception ex) {
-        Rest rest = Rest.fail(BasicRestCode.FAIL);
-        rest.setMessage(ex.getMessage());
-        LogUtil.e(rest.toString(), ex);
-        return rest;
+        return super.handleException(ex);
     }
 }

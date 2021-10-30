@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import chengweiou.universe.blackhole.dao.BaseSQL;
 import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ProjException;
 import chengweiou.universe.blackhole.model.BasicRestCode;
@@ -56,14 +57,27 @@ public class DeviceDio {
     }
 
     public long count(SearchCondition searchCondition, Device sample) {
-        return dao.count(searchCondition, sample!=null ? sample.toDto() : null);
+        Device.Dto dtoSample = sample!=null ? sample.toDto() : Device.NULL.toDto();
+        String where = baseFind(searchCondition, dtoSample);
+        return dao.count(searchCondition, dtoSample, where);
     }
 
     public List<Device> find(SearchCondition searchCondition, Device sample) {
         searchCondition.setDefaultSort("updateAt");
-        List<Device.Dto> dtoList = dao.find(searchCondition, sample!=null ? sample.toDto() : null);
+        Device.Dto dtoSample = sample!=null ? sample.toDto() : Device.NULL.toDto();
+        String where = baseFind(searchCondition, dtoSample);
+        List<Device.Dto> dtoList = dao.find(searchCondition, dtoSample, where);
         List<Device> result = dtoList.stream().map(e -> e.toBean()).collect(Collectors.toList());
         return result;
+    }
+
+    private String baseFind(SearchCondition searchCondition, Device.Dto sample) {
+        return new BaseSQL() {{
+            if (searchCondition.getIdList() != null) WHERE("id in ${searchCondition.foreachIdList}");
+            if (sample != null) {
+                if (sample.getPersonId() != null) WHERE("personId = #{sample.personId}");
+            }
+        }}.toString();
     }
 
 }
