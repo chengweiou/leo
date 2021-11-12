@@ -1,6 +1,7 @@
 package chengweiou.universe.leob.base;
 
 
+import chengweiou.universe.leob.base.formatter.InstantFormatter;
 import chengweiou.universe.leob.base.formatter.LocalDateFormatter;
 import chengweiou.universe.leob.base.formatter.LocalDateTimeFormatter;
 import chengweiou.universe.leob.interceptor.AuthInterceptorMe;
@@ -24,6 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new LocalDateFormatter());
         registry.addFormatter(new LocalDateTimeFormatter());
+        registry.addFormatter(new InstantFormatter());
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
