@@ -36,7 +36,7 @@ public class PushController {
         Valid.check("push.name", e.getName()).is().lengthIn(500);
         Valid.check("push.content", e.getContent()).is().lengthIn(500);
         List<Device> deviceList = deviceService.find(new SearchCondition(), Builder.set("person", e.getPerson()).to(new Device()));
-        List<String> tokenList = deviceList.stream().map(Device::getToken).collect(Collectors.toList());
+        List<String> tokenList = deviceList.stream().filter(device -> device.getActive()).map(Device::getToken).collect(Collectors.toList());
         long failCount = fcmManager.send(MulticastMessage.builder().addAllTokens(tokenList)
                 .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build()
             ).build());
@@ -50,6 +50,7 @@ public class PushController {
         Valid.check("push.content", e.getContent()).is().lengthIn(500);
 //        todo setcondition 多个同时订阅才有效（交钱+指定主题）
 //        todo 多个同样topic 不收到相同推送
+// todo active 在这里怎么处理
         fcmManager.send(Message.builder().setTopic(e.getTopic())
                 .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build()
             ).build());

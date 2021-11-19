@@ -17,7 +17,9 @@ import lombok.ToString;
 public class Device extends ServiceEntity {
     private Person person;
     private String token;
+    private Boolean active;
     public void fillNotRequire() {
+        active = true;
     }
     public static final Device NULL = new Null();
     public static class Null extends Device implements NullObj {
@@ -37,6 +39,7 @@ public class Device extends ServiceEntity {
         @DtoKey
         private Long personId;
         private String token;
+        private Boolean active;
 
         public Device toBean() {
             Device result = new Device();
