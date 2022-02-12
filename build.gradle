@@ -29,7 +29,7 @@ dependencies {
 
 	implementation 'com.google.firebase:firebase-admin:8.1.0'
 
-	implementation 'chengweiou.universe:blackhole:0.0.45'
+	implementation 'chengweiou.universe:blackhole:0.0.53'
 	implementation 'com.google.code.gson:gson:2.8.9'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	// for log4j2 yml

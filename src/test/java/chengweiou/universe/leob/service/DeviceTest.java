@@ -8,6 +8,7 @@ import chengweiou.universe.leob.data.Data;
 import chengweiou.universe.leob.model.Person;
 import chengweiou.universe.leob.model.SearchCondition;
 import chengweiou.universe.leob.model.entity.Device;
+import chengweiou.universe.leob.service.device.DeviceDio;
 import chengweiou.universe.leob.service.device.DeviceService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,8 @@ public class DeviceTest {
     @Autowired
     private DeviceService service;
     @Autowired
+    private DeviceDio dio;
+    @Autowired
     private Data data;
 
     @Test
@@ -31,21 +34,21 @@ public class DeviceTest {
         Device e = Builder.set("person", Builder.set("id", 21L).to(new Person()))
                 .set("token", "asdf")
                 .to(new Device());
-        service.save(e);
+        dio.save(e);
         Assertions.assertEquals(true, e.getId() > 0);
-        service.delete(e);
+        dio.delete(e);
     }
 
     @Test
     public void update() throws ProjException {
         String old = data.deviceList.get(0).getToken();
         Device e = Builder.set("id", data.deviceList.get(0).getId()).set("token", "aaa").to(new Device());
-        long count = service.update(e);
+        long count = dio.update(e);
         Assertions.assertEquals(1, count);
-        Device indb = service.findById(e);
+        Device indb = dio.findById(e);
         Assertions.assertEquals("aaa", indb.getToken());
         Builder.set("token", old).to(e);
-        service.update(e);
+        dio.update(e);
     }
 
     @Test
@@ -56,18 +59,18 @@ public class DeviceTest {
         service.saveOrUpdate(e2);
         Assertions.assertEquals(true, e1.getId()> 0);
         Assertions.assertEquals(e2.getId(), e1.getId());
-        service.delete(e2);
+        dio.delete(e2);
     }
 
     @Test
     public void count() {
-        long count = service.count(new SearchCondition(), Builder.set("person", Builder.set("id", 1L).to(new Person())).to(new Device()));
+        long count = dio.count(new SearchCondition(), Builder.set("person", Builder.set("id", 1L).to(new Person())).to(new Device()));
         Assertions.assertEquals(1, count);
     }
 
     @Test
     public void find() {
-        List<Device> list = service.find(new SearchCondition(), Builder.set("person", Builder.set("id", 1L).to(new Person())).to(new Device()));
+        List<Device> list = dio.find(new SearchCondition(), Builder.set("person", Builder.set("id", 1L).to(new Person())).to(new Device()));
         Assertions.assertEquals(1, list.size());
         Assertions.assertEquals(1L, list.get(0).getPerson().getId());
     }
