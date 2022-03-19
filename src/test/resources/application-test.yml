@@ -12,3 +12,9 @@ api:
   fcm:
     keyPath: /Users/chengweiou/Documents/project/universe/leob/src/main/resources/fcm/leob-key.json
     dbUrl: https://leob-bd12a.firebaseio.com
+
+proj:
+  pushNum: true
+  notifyTypeList:
+    - none
+    - chat

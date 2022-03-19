@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("me")
-public class DeviceController {
+public class DeviceControllerMe {
     @Autowired
     private DeviceService service;
     @PostMapping("/device")

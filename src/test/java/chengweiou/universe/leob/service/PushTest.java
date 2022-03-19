@@ -26,9 +26,9 @@ public class PushTest {
                 .addAllTokens(Arrays.asList("euBVH4S0AJU:APA91bE-NC4QZXlAEJIFDCoVcI02cbnoI4AiylWuPLAIUPATjIZyQc_e0zVZItrhm_-J-jolJkLm0WDsEouasrXkqpGO_SlWKOJNfRagIu3MWRVm1VGXEnlBvqD324YnDjtUrkBRyoQo"))
                 .setNotification(Notification.builder().setTitle("title-test").setBody("body-test").build()
             ).build();
-        Integer failCount = manager.send(message);
-        System.out.println(failCount);
-        Assertions.assertEquals(0, failCount);
+        Integer successCount = manager.send(message);
+        System.out.println(successCount);
+        Assertions.assertEquals(1, successCount);
     }
 
     @Test
@@ -36,8 +36,8 @@ public class PushTest {
         MulticastMessage message = MulticastMessage.builder()
                 .addAllTokens(Arrays.asList("euBVH4S0AJU:APA91bE-NC4QZXlAEJIFDCoVcI02cbnoI4AiylWuPLAIUPATjIZyQc_e0zVZItrhm_-J-jolJkLm0WDsEouasrXkqpGO_SlWKOJNfRagIu3MWRVm1VGXEnlBvqD324YnDjtUrkBRyoQo"))
                 .putData("score", "2.3").putData("time", "3:20").build();
-        Integer failCount = manager.send(message);
-        Assertions.assertEquals(0, failCount);
+        Integer successCount = manager.send(message);
+        Assertions.assertEquals(1, successCount);
     }
 
     @Test

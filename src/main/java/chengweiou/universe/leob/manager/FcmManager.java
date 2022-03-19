@@ -23,7 +23,7 @@ public class FcmManager {
 
     public Integer send(MulticastMessage e) throws FailException {
         try {
-            return FirebaseMessaging.getInstance().sendMulticastAsync(e).get().getFailureCount();
+            return FirebaseMessaging.getInstance().sendMulticastAsync(e).get().getSuccessCount();
         } catch (InterruptedException | ExecutionException ex) {
             LogUtil.e("firebase send fail", ex);
             throw new FailException();

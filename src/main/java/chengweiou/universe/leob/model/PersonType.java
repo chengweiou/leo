@@ -1,7 +1,7 @@
 package chengweiou.universe.leob.model;
 
 public enum PersonType {
-    SUPER, TRAINER,
+    SUPER, EMPLOYEE,
     MEMBER, GUEST,
     ;
 }
