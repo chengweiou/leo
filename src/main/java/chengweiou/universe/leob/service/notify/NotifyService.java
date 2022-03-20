@@ -21,7 +21,7 @@ public class NotifyService {
         Notify indb = dio.findByKey(e);
         if ( ! indb.notNull()) {
             dio.save(e);
-        } else {
+        } else if (e.getNum() != null) {
             dio.update(Builder.set("num", e.getNum()).to(indb));
         }
     }
