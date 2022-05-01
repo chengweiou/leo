@@ -16,6 +16,7 @@ public class Push implements NotNullObj, Serializable {
     private String content;
     private String notifyType;
     private Integer num;
+    private PushInApp pushInApp; // 给前端使用
     public static final Push NULL = new Push.Null();
     public static class Null extends Push implements NullObj {
     }

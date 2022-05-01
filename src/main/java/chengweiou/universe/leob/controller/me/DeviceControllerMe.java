@@ -29,6 +29,7 @@ public class DeviceControllerMe {
         e.setPerson(loginAccount.getPerson());
         // todo 判断来源设备种类，决定是save 还是saveorupdate
         service.saveOrUpdate(e);
+        // todo 这里是不是也吧所有的 notify 也自动加上，要用saveOrUpdate，这个可能被用户多次请求
         return Rest.ok(e.getId());
     }
 }

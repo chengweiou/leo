@@ -22,6 +22,7 @@ import chengweiou.universe.blackhole.param.Valid;
 import chengweiou.universe.leob.base.config.ProjConfig;
 import chengweiou.universe.leob.manager.FcmManager;
 import chengweiou.universe.leob.model.Push;
+import chengweiou.universe.leob.model.PushInApp;
 import chengweiou.universe.leob.model.SearchCondition;
 import chengweiou.universe.leob.model.entity.Device;
 import chengweiou.universe.leob.model.entity.notify.Notify;
@@ -49,6 +50,7 @@ public class PushController {
         Valid.check("push.name", e.getName()).is().lengthIn(500);
         Valid.check("push.content", e.getContent()).is().lengthIn(500);
         if (e.getNotifyType() != null) Valid.check("push.notifyType", e.getNotifyType()).is().of(config.getNotifyTypeList());
+        if (e.getPushInApp() == null) e.setPushInApp(PushInApp.NONE);
 
         // 确认这个项目用户是不是开启推送
         Notify notifyIndb = notifyDio.findByKey(e.toNotify());
@@ -60,12 +62,13 @@ public class PushController {
             notifyService.saveOrUpdateNum(e.toNotify());
             num = notifyService.sumNum(e.toNotify());
         }
+
         Device device = deviceDio.findByKey(Builder.set("person", e.getPerson()).to(new Device()));
         if (!device.notNull()) return Rest.ok(0);
         long successCount = fcmManager.send(MulticastMessage.builder().addToken(device.getToken())
+            .putData("pushInApp", e.getPushInApp()!=null ? e.getPushInApp().name() : PushInApp.NONE.name())
             .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build())
-            .setApnsConfig(ApnsConfig.builder().setAps(Aps.builder().setBadge(num).build())
-            .build()
+            .setApnsConfig(ApnsConfig.builder().setAps(Aps.builder().setBadge(num).build()).build()
         ).build());
         // todo me哪边添加一个pushBadge
         return Rest.ok(successCount);
