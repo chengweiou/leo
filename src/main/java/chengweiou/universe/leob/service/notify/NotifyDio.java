@@ -17,10 +17,6 @@ public class NotifyDio extends BaseDio<Notify, Dto> {
     @Override
     protected NotifyDao getDao() { return dao; }
     @Override
-    protected Class getTClass() { return Notify.class; };
-    @Override
-    protected String getDefaultSort() { return "createAt"; };
-    @Override
     protected String baseFind(AbstractSearchCondition searchCondition, Dto sample) {
         return new BaseSQL() {{
             if (searchCondition.getIdList() != null) WHERE("id in ${searchCondition.foreachIdList}");

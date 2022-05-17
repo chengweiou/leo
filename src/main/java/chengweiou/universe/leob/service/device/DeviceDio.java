@@ -17,10 +17,6 @@ public class DeviceDio extends BaseDio<Device, Device.Dto> {
     @Override
     protected DeviceDao getDao() { return dao; }
     @Override
-    protected Class getTClass() { return Device.class; };
-    @Override
-    protected String getDefaultSort() { return "createAt"; };
-    @Override
     protected String baseFind(AbstractSearchCondition searchCondition, Dto sample) {
         return new BaseSQL() {{
             if (searchCondition.getIdList() != null) WHERE("id in ${searchCondition.foreachIdList}");
