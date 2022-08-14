@@ -1,8 +1,6 @@
 package chengweiou.universe.leob.controller.me;
 
 
-import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +17,7 @@ import chengweiou.universe.blackhole.model.Builder;
 import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.util.GsonUtil;
 import chengweiou.universe.leob.base.converter.Account;
-import chengweiou.universe.leob.data.Data;
 import chengweiou.universe.leob.model.Person;
-import chengweiou.universe.leob.model.entity.notify.Notify;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -30,49 +26,38 @@ public class NotifyTest {
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 	private Account loginAccount;
-	@Autowired
-	private Data data;
 
 	@Test
-	public void findById() throws Exception {
-		String result = mvc.perform(MockMvcRequestBuilders.get("/me/notify/key")
-			.header("loginAccount", GsonUtil.create().toJson(loginAccount))
-			.param("type", "none")
-		).andReturn().getResponse().getContentAsString();
-		Rest<Notify> rest = Rest.from(result, Notify.class);
-		Assertions.assertEquals(BasicRestCode.OK, rest.getCode(), rest.getMessage());
-		Assertions.assertEquals(data.notifyList.get(0).getId(), rest.getData().getId());
+	public void saveDelete() throws Exception {
+		String result = mvc.perform(MockMvcRequestBuilders.post("/me/notify")
+				.header("loginAccount", GsonUtil.create().toJson(loginAccount))
+				.param("phoneToken", "asdfghjk")
+			).andReturn().getResponse().getContentAsString();
+		Rest<Long> saveRest = Rest.from(result);
+		Assertions.assertEquals(BasicRestCode.OK, saveRest.getCode());
 	}
 
 	@Test
-	public void count() throws Exception {
-		String result = mvc.perform(MockMvcRequestBuilders.get("/me/notify/count")
-			.header("loginAccount", GsonUtil.create().toJson(loginAccount))
-		).andReturn().getResponse().getContentAsString();
-		Rest<Long> rest = Rest.from(result, Long.class);
-		Assertions.assertEquals(BasicRestCode.OK, rest.getCode());
-		Assertions.assertEquals(2, rest.getData());
-	}
-
-	@Test
-	public void find() throws Exception {
-		String result = mvc.perform(MockMvcRequestBuilders.get("/me/notify")
+	public void saveDeleteParamFail() throws Exception {
+		// token
+		String result = mvc.perform(MockMvcRequestBuilders.post("/me/notify")
 				.header("loginAccount", GsonUtil.create().toJson(loginAccount))
 		).andReturn().getResponse().getContentAsString();
-		Rest<List> rest = Rest.from(result, List.class);
-		Assertions.assertEquals(BasicRestCode.OK, rest.getCode());
-		Assertions.assertEquals(2, rest.getData().size());
+		Rest<Long> saveRest = Rest.from(result);
+		Assertions.assertEquals(BasicRestCode.PARAM, saveRest.getCode());
+		// account
+		result = mvc.perform(MockMvcRequestBuilders.post("/me/notify")
+				.param("phoneToken", "asdfghjk")
+		).andReturn().getResponse().getContentAsString();
+		saveRest = Rest.from(result);
+		Assertions.assertEquals(BasicRestCode.UNAUTH, saveRest.getCode());
 	}
 
 	@BeforeEach
 	public void before() {
 		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		loginAccount = Builder.set("person", Builder.set("id", 1L).to(new Person()))
+		loginAccount = Builder.set("person", Builder.set("id", 10L).to(new Person()))
 				.set("extra", "SUPER")
 				.to(new Account());
-	}
-	@BeforeEach
-	public void init() {
-		data.init();
 	}
 }

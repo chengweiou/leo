@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 public class ProjConfig {
     private Boolean pushNum;
-    private List<String> notifyTypeList;
+    private List<String> pushSpecTypeList;
 }

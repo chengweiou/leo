@@ -1,47 +1,34 @@
 package chengweiou.universe.leob.controller.mg;
 
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ParamException;
+import chengweiou.universe.blackhole.exception.ProjException;
 import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.param.Valid;
-import chengweiou.universe.leob.model.SearchCondition;
-import chengweiou.universe.leob.model.entity.notify.Notify;
-import chengweiou.universe.leob.service.notify.NotifyDio;
+import chengweiou.universe.leob.base.converter.Account;
+import chengweiou.universe.leob.model.entity.Notify;
+import chengweiou.universe.leob.service.notify.NotifyService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("mg")
 public class NotifyControllerMg {
     @Autowired
-    private NotifyDio dio;
-
-    @GetMapping("/notify/key")
-    public Rest<Notify> findByKey(Notify e) throws ParamException {
-        Valid.check("notify.person", e.getPerson()).isNotNull();
-        Valid.check("notify.person.id", e.getPerson().getId()).is().positive();
-        Valid.check("notify.type", e.getType()).isNotNull();
-        Notify indb = dio.findByKey(e);
-        return Rest.ok(indb);
-    }
-
-    @GetMapping("/notify/count")
-    public Rest<Long> count(SearchCondition searchCondition, Notify sample) throws ParamException {
-        Valid.check("notify.person", sample.getPerson()).isNotNull();
-        Valid.check("notify.person.id", sample.getPerson().getId()).is().positive();
-        long count = dio.count(searchCondition, sample);
-        return Rest.ok(count);
-    }
-
-    @GetMapping("/notify")
-    public Rest<List<Notify>> find(SearchCondition searchCondition, Notify sample) throws ParamException {
-        Valid.check("notify.person", sample.getPerson()).isNotNull();
-        Valid.check("notify.person.id", sample.getPerson().getId()).is().positive();
-        List<Notify> list = dio.find(searchCondition, sample);
-        return Rest.ok(list);
+    private NotifyService service;
+    @PostMapping("/notify")
+    public Rest<Long> save(Notify e, @RequestHeader("loginAccount") Account loginAccount) throws ParamException, FailException, ProjException {
+        Valid.check("loginAccount.person", loginAccount.getPerson()).isNotNull();
+        Valid.check("loginAccount.person.id", loginAccount.getPerson().getId()).is().positive();
+        e.setPerson(loginAccount.getPerson());
+        // todo 判断来源设备种类，决定是save 还是saveorupdate
+        service.saveOrUpdate(e);
+        // todo 这里是不是也吧所有的 notify 也自动加上，要用saveOrUpdate，这个可能被用户多次请求
+        return Rest.ok(e.getId());
     }
 }

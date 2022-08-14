@@ -1,16 +1,6 @@
 package chengweiou.universe.leob.controller.mg;
 
 
-import chengweiou.universe.blackhole.model.BasicRestCode;
-import chengweiou.universe.blackhole.model.Builder;
-import chengweiou.universe.blackhole.model.Rest;
-import chengweiou.universe.blackhole.util.GsonUtil;
-import chengweiou.universe.leob.base.converter.Account;
-import chengweiou.universe.leob.data.Data;
-import chengweiou.universe.leob.model.Person;
-import chengweiou.universe.leob.model.entity.notify.Notify;
-import chengweiou.universe.leob.service.notify.NotifyDio;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +11,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import chengweiou.universe.blackhole.model.BasicRestCode;
+import chengweiou.universe.blackhole.model.Builder;
+import chengweiou.universe.blackhole.model.Rest;
+import chengweiou.universe.blackhole.util.GsonUtil;
+import chengweiou.universe.leob.base.converter.Account;
+import chengweiou.universe.leob.data.Data;
+import chengweiou.universe.leob.model.Person;
+import chengweiou.universe.leob.model.entity.PushSpec;
+import chengweiou.universe.leob.service.pushSpec.PushSpecDio;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -33,7 +33,7 @@ public class PushTest {
 	private Data data;
 
 	@Autowired
-    private NotifyDio notifyDio;
+    private PushSpecDio pushSpecDio;
 	@Test
 	public void push() throws Exception {
 		String result = mvc.perform(MockMvcRequestBuilders.post("/mg/push")
@@ -45,9 +45,9 @@ public class PushTest {
 			).andReturn().getResponse().getContentAsString();
 		Rest<Long> saveRest = Rest.from(result);
 		Assertions.assertEquals(BasicRestCode.OK, saveRest.getCode());
-		Notify indb = notifyDio.findById(data.notifyList.get(0));
+		PushSpec indb = pushSpecDio.findById(data.pushSpecList.get(0));
 		Assertions.assertEquals(11, indb.getNum());
-		notifyDio.update(data.notifyList.get(0));
+		pushSpecDio.update(data.pushSpecList.get(0));
 	}
 
 	@Test
@@ -61,9 +61,9 @@ public class PushTest {
 			).andReturn().getResponse().getContentAsString();
 		Rest<Long> saveRest = Rest.from(result);
 		Assertions.assertEquals(BasicRestCode.OK, saveRest.getCode());
-		Notify indb = notifyDio.findByKey(Builder.set("person", Builder.set("id", 31).to(new Person())).set("type", "none").to(new Notify()));
+		PushSpec indb = pushSpecDio.findByKey(Builder.set("person", Builder.set("id", 31).to(new Person())).set("type", "none").to(new PushSpec()));
 		Assertions.assertEquals(31, indb.getNum());
-		notifyDio.delete(indb);
+		pushSpecDio.delete(indb);
 	}
 
 	@Test

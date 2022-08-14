@@ -4,11 +4,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import chengweiou.universe.leob.base.dao.BaseDao;
-import chengweiou.universe.leob.model.entity.Device.Dto;
+import chengweiou.universe.leob.model.entity.PushSpec.Dto;
 
 @Repository
 @Mapper
-public interface DeviceDao extends BaseDao<Dto> {
+public interface PushSpecDao extends BaseDao<Dto> {
 
     class Sql {
 

@@ -14,15 +14,26 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Device extends ServiceEntity {
+public class Notify extends ServiceEntity {
     private Person person;
-    private String token;
-    private Boolean active;
+    private String email;
+    private String sms;
+    private String phoneToken;
+    private String padToken;
+    private Boolean activeEmail;
+    private Boolean activeSms;
+    private Boolean activePush;
     public void fillNotRequire() {
-        active = true;
+        email = email != null ? email : "";
+        sms = sms != null ? sms : "";
+        phoneToken = phoneToken != null ? phoneToken : "";
+        padToken = padToken != null ? padToken : "";
+        activeEmail = true;
+        activeSms = true;
+        activePush = true;
     }
-    public static final Device NULL = new Null();
-    public static class Null extends Device implements NullObj {
+    public static final Notify NULL = new Null();
+    public static class Null extends Notify implements NullObj {
         @Override
         public Person getPerson() { return Person.NULL; }
     }
@@ -38,11 +49,16 @@ public class Device extends ServiceEntity {
     public static class Dto extends DtoEntity {
         @DtoKey
         private Long personId;
-        private String token;
-        private Boolean active;
+        private String email;
+        private String sms;
+        private String phoneToken;
+        private String padToken;
+        private Boolean activeEmail;
+        private Boolean activeSms;
+        private Boolean activePush;
 
-        public Device toBean() {
-            Device result = new Device();
+        public Notify toBean() {
+            Notify result = new Notify();
             BeanUtils.copyProperties(this, result);
             result.setPerson(Builder.set("id", personId).to(new Person()));
             return result;

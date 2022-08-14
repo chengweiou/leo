@@ -1,4 +1,4 @@
-package chengweiou.universe.leob.model.entity.notify;
+package chengweiou.universe.leob.model.entity;
 
 import org.springframework.beans.BeanUtils;
 
@@ -14,7 +14,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Notify extends ServiceEntity {
+public class PushSpec extends ServiceEntity {
     private Person person;
     private String type;
     private Boolean active;
@@ -24,8 +24,8 @@ public class Notify extends ServiceEntity {
         active = active != null ? active : true;
         num = num != null ? num : 0;
     }
-    public static final Notify NULL = new Null();
-    public static class Null extends Notify implements NullObj {
+    public static final PushSpec NULL = new Null();
+    public static class Null extends PushSpec implements NullObj {
         @Override
         public Person getPerson() { return Person.NULL; }
     }
@@ -46,8 +46,8 @@ public class Notify extends ServiceEntity {
         private Boolean active;
         private Integer num;
 
-        public Notify toBean() {
-            Notify result = new Notify();
+        public PushSpec toBean() {
+            PushSpec result = new PushSpec();
             BeanUtils.copyProperties(this, result);
             result.setPerson(Builder.set("id", personId).to(new Person()));
             return result;

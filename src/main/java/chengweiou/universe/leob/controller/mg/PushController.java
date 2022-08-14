@@ -1,17 +1,19 @@
 package chengweiou.universe.leob.controller.mg;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.firebase.messaging.ApnsConfig;
 import com.google.firebase.messaging.Aps;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import chengweiou.universe.blackhole.exception.FailException;
 import chengweiou.universe.blackhole.exception.ParamException;
@@ -23,12 +25,11 @@ import chengweiou.universe.leob.base.config.ProjConfig;
 import chengweiou.universe.leob.manager.FcmManager;
 import chengweiou.universe.leob.model.Push;
 import chengweiou.universe.leob.model.PushInApp;
-import chengweiou.universe.leob.model.SearchCondition;
-import chengweiou.universe.leob.model.entity.Device;
-import chengweiou.universe.leob.model.entity.notify.Notify;
-import chengweiou.universe.leob.service.device.DeviceDio;
+import chengweiou.universe.leob.model.entity.Notify;
+import chengweiou.universe.leob.model.entity.PushSpec;
 import chengweiou.universe.leob.service.notify.NotifyDio;
-import chengweiou.universe.leob.service.notify.NotifyService;
+import chengweiou.universe.leob.service.pushSpec.PushSpecDio;
+import chengweiou.universe.leob.service.pushSpec.PushSpecService;
 
 @RestController
 @RequestMapping("mg")
@@ -36,11 +37,11 @@ public class PushController {
     @Autowired
     private FcmManager fcmManager;
     @Autowired
-    private DeviceDio deviceDio;
-    @Autowired
-    private NotifyService notifyService;
-    @Autowired
     private NotifyDio notifyDio;
+    @Autowired
+    private PushSpecService pushSpecService;
+    @Autowired
+    private PushSpecDio pushSpecDio;
     @Autowired
     private ProjConfig config;
     @PostMapping("/push")
@@ -49,23 +50,24 @@ public class PushController {
         Valid.check("push.person.id", e.getPerson().getId()).is().positive();
         Valid.check("push.name", e.getName()).is().lengthIn(500);
         Valid.check("push.content", e.getContent()).is().lengthIn(500);
-        if (e.getNotifyType() != null) Valid.check("push.notifyType", e.getNotifyType()).is().of(config.getNotifyTypeList());
+        if (e.getPushSpecType() != null) Valid.check("push.pushSpecType", e.getPushSpecType()).is().of(config.getPushSpecTypeList());
         if (e.getPushInApp() == null) e.setPushInApp(PushInApp.NONE);
 
         // 确认这个项目用户是不是开启推送
-        Notify notifyIndb = notifyDio.findByKey(e.toNotify());
-        if (notifyIndb.notNull() && !notifyIndb.getActive()) return Rest.ok(0);
+        PushSpec pushSpecIndb = pushSpecDio.findByKey(e.toPushSpec());
+        if (pushSpecIndb.notNull() && !pushSpecIndb.getActive()) return Rest.ok(0);
         int num = 0;
         // 如果推送数字，则获取该用户的最新总数字
         if (config.getPushNum()) {
-            notifyIndb.setNum(e.toNotify().getNum());
-            notifyService.saveOrUpdateNum(e.toNotify());
-            num = notifyService.sumNum(e.toNotify());
+            pushSpecIndb.setNum(e.toPushSpec().getNum());
+            pushSpecService.saveOrUpdateNum(e.toPushSpec());
+            num = pushSpecService.sumNum(e.toPushSpec());
         }
 
-        Device device = deviceDio.findByKey(Builder.set("person", e.getPerson()).to(new Device()));
-        if (!device.notNull()) return Rest.ok(0);
-        long successCount = fcmManager.send(MulticastMessage.builder().addToken(device.getToken())
+        Notify notify = notifyDio.findByKey(Builder.set("person", e.getPerson()).to(new Notify()));
+        if (!notify.notNull()) return Rest.ok(0);
+        var a = List.of(notify.getPhoneToken(), notify.getPadToken()).stream().filter(each -> !each.isEmpty()).toList();
+        long successCount = fcmManager.send(MulticastMessage.builder().addAllTokens(List.of(notify.getPhoneToken(), notify.getPadToken()).stream().filter(each -> !each.isEmpty()).toList())
             .putData("pushInApp", e.getPushInApp()!=null ? e.getPushInApp().name() : PushInApp.NONE.name())
             .setNotification(Notification.builder().setTitle(e.getName()).setBody(e.getContent()).build())
             .setApnsConfig(ApnsConfig.builder().setAps(Aps.builder().setBadge(num).build()).build()

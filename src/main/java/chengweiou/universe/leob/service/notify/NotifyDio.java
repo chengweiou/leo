@@ -7,11 +7,11 @@ import chengweiou.universe.blackhole.dao.BaseDio;
 import chengweiou.universe.blackhole.dao.BaseSQL;
 import chengweiou.universe.blackhole.model.AbstractSearchCondition;
 import chengweiou.universe.leob.dao.NotifyDao;
-import chengweiou.universe.leob.model.entity.notify.Notify;
-import chengweiou.universe.leob.model.entity.notify.Notify.Dto;
+import chengweiou.universe.leob.model.entity.Notify;
+import chengweiou.universe.leob.model.entity.Notify.Dto;
 
 @Component
-public class NotifyDio extends BaseDio<Notify, Dto> {
+public class NotifyDio extends BaseDio<Notify, Notify.Dto> {
     @Autowired
     private NotifyDao dao;
     @Override
@@ -22,8 +22,6 @@ public class NotifyDio extends BaseDio<Notify, Dto> {
             if (searchCondition.getIdList() != null) WHERE("id in ${searchCondition.foreachIdList}");
             if (sample != null) {
                 if (sample.getPersonId() != null) WHERE("personId = #{sample.personId}");
-                if (sample.getType() != null) WHERE("type = #{sample.type}");
-                if (sample.getActive() != null) WHERE("active = #{sample.active}");
             }
         }}.toString();
     }
