@@ -41,7 +41,7 @@ public class NotifyTest {
     }
 
     @Test
-    public void update() throws ProjException {
+    public void update() throws ProjException, FailException {
         String old = data.notifyList.get(0).getPhoneToken();
         Notify e = Builder.set("id", data.notifyList.get(0).getId()).set("phoneToken", "aaa").to(new Notify());
         long count = dio.update(e);
@@ -55,9 +55,9 @@ public class NotifyTest {
     @Test
     public void saveOrUpdate() throws FailException, ProjException {
         Notify e1 = Builder.set("person", Builder.set("id", 20).to(new Person())).set("phoneToken", "aaa").to(new Notify());
-        service.saveOrUpdate(e1);
+        dio.saveOrUpdateByKey(e1);
         Notify e2 = Builder.set("person", Builder.set("id", 20).to(new Person())).set("phoneToken", "bbb").to(new Notify());
-        service.saveOrUpdate(e2);
+        dio.saveOrUpdateByKey(e2);
         Assertions.assertEquals(true, e1.getId()> 0);
         Assertions.assertEquals(e2.getId(), e1.getId());
         dio.delete(e2);

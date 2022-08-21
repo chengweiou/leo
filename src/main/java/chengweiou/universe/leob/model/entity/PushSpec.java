@@ -39,9 +39,9 @@ public class PushSpec extends ServiceEntity {
     @ToString(callSuper = true)
     @EqualsAndHashCode(callSuper = true)
     public static class Dto extends DtoEntity {
-        @DtoKey
+        @DtoKey(group="key")
         private Long personId;
-        @DtoKey
+        @DtoKey(group="key")
         private String type;
         private Boolean active;
         private Integer num;

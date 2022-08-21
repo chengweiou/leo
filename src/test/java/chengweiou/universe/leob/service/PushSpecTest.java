@@ -48,7 +48,7 @@ public class PushSpecTest {
 	}
 
 	@Test
-	public void update() {
+	public void update() throws FailException {
 		PushSpec e = Builder.set("id", data.pushSpecList.get(0).getId()).set("active", false).to(new PushSpec());
 		long count = dio.update(e);
 		Assertions.assertEquals(1, count);
@@ -78,7 +78,7 @@ public class PushSpecTest {
 		Assertions.assertEquals(10, indb.getNum());
 		dio.update(data.pushSpecList.get(1));
 
-		service.saveOrUpdateNum(Builder.set("person", Builder.set("id", 7).to(new Person())).set("num", 12).to(new PushSpec()));
+		service.saveOrUpdateNum(Builder.set("person", Builder.set("id", 7).to(new Person())).set("type", "none").set("num", 12).to(new PushSpec()));
 		indb = dio.findByKey(Builder.set("person", Builder.set("id", 7).to(new Person())).set("type", "none").to(new PushSpec()));
 		Assertions.assertEquals(12, indb.getNum());
 		dio.delete(indb);
