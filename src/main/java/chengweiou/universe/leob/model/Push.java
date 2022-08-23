@@ -21,6 +21,7 @@ public class Push implements NotNullObj, Serializable {
     public static class Null extends Push implements NullObj {
     }
 
+// todo carina 还没做
     private PushSpec pushSpec;
     public PushSpec toPushSpec() {
         if (pushSpec == null) pushSpec = Builder
