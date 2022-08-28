@@ -10,10 +10,9 @@ set search_path = leob;
 alter table notify rename to pushSpec;
 SELECT setval(pg_get_serial_sequence('pushSpec', 'id'), coalesce(max(id), 0)+1 , false) FROM pushSpec;
 
-alter talbe device rename to old-device;
--- todo 需要导入milkyway里面的person表，拿到email，phone，然后删除
-alter table old-device add column sms text NOT NULL default '', email text NOT NULL default '';
-update old-device set sms=person.phone, email=person.email from person where personId=person.id;
+alter table device rename to olddevice;
+alter table olddevice add column sms text NOT NULL default '', add column email text NOT NULL default '';
+
 CREATE TABLE notify (
   id bigserial NOT NULL,
   personId bigint NOT NULL,
@@ -28,7 +27,8 @@ CREATE TABLE notify (
   updateAt timestamp with time zone NOT NULL,
   PRIMARY KEY (id)
 );
-insert into notify(id, personId, email, sms, phoneToken, padToken, activeEmail, activeSms, activePush, createAt, updateAt) select id, personId, email, sms, token, '', true, true, true, createAt, updateAt from old-device;
+insert into notify(id, personId, email, sms, phoneToken, padToken, activeEmail, activeSms, activePush, createAt, updateAt) select id, personId, email, sms, token, '', true, true, true, createAt, updateAt from olddevice;
 SELECT setval(pg_get_serial_sequence('notify', 'id'), coalesce(max(id), 0)+1 , false) FROM notify;
-drop table if exists old-device;
-drop table if exists person;
+drop table if exists olddevice;
+
+update notify set sms=milkyway.person.phone, email=milkyway.person.email from milkyway.person where personId=milkyway.person.id;
