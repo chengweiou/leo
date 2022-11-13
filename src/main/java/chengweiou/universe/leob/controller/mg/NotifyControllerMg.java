@@ -25,10 +25,9 @@ public class NotifyControllerMg {
     @Autowired
     private NotifyService service;
     @PostMapping("/notify")
-    public Rest<Long> save(Notify e, @RequestHeader("loginAccount") Account loginAccount) throws ParamException, FailException, ProjException {
-        Valid.check("loginAccount.person", loginAccount.getPerson()).isNotNull();
-        Valid.check("loginAccount.person.id", loginAccount.getPerson().getId()).is().positive();
-        e.setPerson(loginAccount.getPerson());
+    public Rest<Long> save(Notify e) throws ParamException, FailException, ProjException {
+        Valid.check("person", e.getPerson()).isNotNull();
+        Valid.check("person.id", e.getPerson().getId()).is().positive();
         dio.saveOrUpdateByKey(e);
         return Rest.ok(e.getId());
     }
