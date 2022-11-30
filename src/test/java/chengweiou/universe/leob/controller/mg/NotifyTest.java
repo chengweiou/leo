@@ -31,6 +31,7 @@ public class NotifyTest {
 	public void saveDelete() throws Exception {
 		String result = mvc.perform(MockMvcRequestBuilders.post("/mg/notify")
 				.header("loginAccount", GsonUtil.create().toJson(loginAccount))
+				.param("person.id", "1")
 				.param("email", "asdfghjk")
 			).andReturn().getResponse().getContentAsString();
 		Rest<Long> saveRest = Rest.from(result);
